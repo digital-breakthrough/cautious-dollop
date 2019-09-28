@@ -35,12 +35,12 @@ export async function compare (req, res) {
     }];
 
     const docs = [{
-        id: 0,
+        key: 0,
         file_type: "Проверяемый файл",
         count_row: fileDataForChecking.split("\n").length,
         count_word: fileDataForChecking.split(" ").length,
     }, {
-        id: 1,
+        key: 1,
         file_type: "Кодовая база",
         count_row: existingFileData.split("\n").length,
         count_word: existingFileData.split(" ").length,
