@@ -42,13 +42,23 @@ export async function compare (req, res) {
         count_word: fileDataForChecking.split(" ").length,
         }];
 
-    const usedDependencies = [];
+    let usedDependencies = [];
     const iterator = fileDataForChecking.matchAll(/from "(\w+)"/gi);
-    while(true) {
+    while (true) {
         let result = iterator.next();
         if (result.done) break;
         usedDependencies.push(result.value[1])
     }
+
+    usedDependencies = usedDependencies.map(usedDepend => {
+        const dependInDB = dependencies.find(d => d.title == usedDepend);
+
+        if (dependInDB) return dependInDB;
+        return {
+            key: usedDepend,
+            title: usedDepend
+        }
+    });
 
     return res.json({
         success: true,

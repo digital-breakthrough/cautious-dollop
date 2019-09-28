@@ -1,18 +1,23 @@
 const dependencies = [{
+    key: "react",
     title: "react",
-    github: "https://github.com/facebook/react"
+    source: "https://github.com/facebook/react"
 }, {
+    key: "react-router-dom",
     title: "react-router-dom",
-    github: "https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom"
+    source: "https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom"
 }, {
+    key: "lodash",
     title: "lodash",
-    github: "https://github.com/lodash/lodash"
+    source: "https://github.com/lodash/lodash"
 }, {
+    key: "angular",
     title: "angular",
-    github: "https://github.com/angular"
+    source: "https://github.com/angular"
 }, {
+    key: "vue",
     title: "vue",
-    github: "https://github.com/vuejs/vue"
+    source: "https://github.com/vuejs/vue"
 }];
 
 export default dependencies;
