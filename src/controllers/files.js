@@ -21,6 +21,10 @@ export async function compare (req, res) {
     
     const percent = 100 - equalRows/fileDataForChecking.split("\n").length * 100;
     const columns = [{
+        title: 'Тип файл',
+        dataIndex: "file_type",
+        key: "file_type"
+    }, {
         title: 'Количество строк',
         dataIndex: "count_row",
         key: "count_row"
@@ -32,10 +36,12 @@ export async function compare (req, res) {
 
     const docs = [{
         id: 0,
+        file_type: "Проверяемый файл",
         count_row: fileDataForChecking.split("\n").length,
         count_word: fileDataForChecking.split(" ").length,
     }, {
         id: 1,
+        file_type: "Кодовая база",
         count_row: existingFileData.split("\n").length,
         count_word: existingFileData.split(" ").length,
     }];
