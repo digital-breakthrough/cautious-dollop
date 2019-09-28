@@ -1,5 +1,6 @@
 import {js as beautify} from "js-beautify";
 import fs from "fs";
+import dependencies from "../../dependencies";
 
 const readFile = fs.promises.readFile;
 
@@ -36,21 +37,25 @@ export async function compare (req, res) {
 
     const docs = [{
         key: 0,
-        file_type: "Проверяемый файл",
+        file_type: "Javascript file",
         count_row: fileDataForChecking.split("\n").length,
         count_word: fileDataForChecking.split(" ").length,
-    }, {
-        key: 1,
-        file_type: "Кодовая база",
-        count_row: existingFileData.split("\n").length,
-        count_word: existingFileData.split(" ").length,
-    }];
+        }];
 
+    const usedDependencies = [];
+    const iterator = fileDataForChecking.matchAll(/from "(\w+)"/gi);
+    while(true) {
+        let result = iterator.next();
+        if (result.done) break;
+        usedDependencies.push(result.value[1])
+    }
 
     return res.json({
         success: true,
         percent,
         docs,
-        columns
+        columns,
+        usedDependencies,
+        equalRows
     });
 }
