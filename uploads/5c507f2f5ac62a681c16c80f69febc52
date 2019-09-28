@@ -1,0 +1,30 @@
+const partition = (arr, lowIdx, highIdx, condition) => {
+    const pivotPosition = Math.floor(Math.random() * (highIdx - lowIdx + 1)) + lowIdx;
+    const pivot = arr[pivotPosition];
+};
+
+/**
+ * Default sort for custome quickSort implementation
+ * @param {*} a 
+ * @param {*} b 
+ */
+const defaultSort = (a, b) => a > b;
+
+const quickSort = async (arr, lowIdx, highIdx, condition = defaultSort) => {
+    if (lowIdx < highIdx) {
+        const index = partition(arr, lowIdx, highIdx, condition);
+        await quickSort(arr, lowIdx, index - 1, condition);
+        await quickSort(arr, index, highIdx, condition);
+    }
+    return arr;
+};
+
+const fakeFunction = () => {
+    return {
+    	data: {
+	    fake: true	
+	}
+    }
+}
+	
+module.exports = quickSort;
