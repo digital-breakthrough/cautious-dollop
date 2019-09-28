@@ -1,0 +1,25 @@
+{
+    "server": {
+        "port": 3000
+    },
+    "client": {
+        "httpSchema": "http",
+        "host": "localhost",
+        "port": "8080"
+    },
+    "jwt": {
+        "secret": "secret",
+        "expiresIn": "24h"
+    },
+    "db": {
+        "url": "mongodb://localhost:27017/handdo"
+    },
+    "bcrypt": {
+        "salt": "salt"
+    },
+    "pagination": {
+        "orders": 10,
+        "services": 10,
+        "performers": 10
+    }
+}

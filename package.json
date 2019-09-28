@@ -1,0 +1,32 @@
+{
+  "name": "handdo-express-server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "export NODE_ENV=dev NODE_CONFIG_DIR=./config/ && nodemon -w src --exec \"babel-node src/index.js \"",
+    "win-start": "set NODE_ENV=dev&& set NODE_CONFIG_DIR=./config/&& nodemon -w src --exec \"babel-node src/index.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "config": "^2.0.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.16.4",
+    "js-beautify": "^1.10.2",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.11",
+    "multer": "^1.4.2",
+    "nodemailer": "^4.6.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.18.6"
+  }
+}

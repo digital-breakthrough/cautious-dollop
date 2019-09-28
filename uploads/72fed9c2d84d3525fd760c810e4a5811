@@ -1,0 +1,18 @@
+const expect = require('chai').expect;
+const quickSort = require('../../src/algorithms/quickSort');
+
+describe('QuickSort algorithm', () => {
+    it("Checking simple sort array" , async () => {
+        const arr = [5, 4, 3, 2, 1];
+        const trueSortedArr = [1, 2, 3, 4, 5];
+        const sortedArr = await quickSort(arr, 0, arr.length - 1, (a, b) => a > b);
+        expect(sortedArr).to.deep.equals(trueSortedArr);    
+    });
+
+    it("Checking default sort condition" , async () => {
+        const arr = [5, 4, 3, 2, 1];
+        const trueSortedArr = arr.sort();
+        const sortedArr = await quickSort(arr, 0, arr.length - 1);
+        expect(sortedArr).to.deep.equals(trueSortedArr);    
+    });
+});

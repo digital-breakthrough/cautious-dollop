@@ -1,0 +1,47 @@
+const cluster = require("cluster");
+const { getEqualArraySegments } = require('../helpers/array');
+const quickSort = require('./quickSort');
+
+const workerActivator = (workerData) => {
+    return new Promise((resolve, reject) => {
+        const worker = cluster.fork(workerData);
+        worker.on("message", resolve);
+        worker.on("error", reject);
+    });
+}
+
+const bucketMerge = async (buckets) => {
+    console.log(buckets)
+} 
+
+const bucketSort = async (arr, condition, { countCPU }) => {
+    if (cluster.isMaster) {
+        // get the array segments for each worker
+        const buckets = getEqualArraySegments(arr, countCPU);
+
+        const sortPromises = [];
+        for (let i = 0; i < countCPU; i++) {
+            // delegate to each worker his segment
+            const sortPromise = workerActivator(buckets[i]);
+            sortPromises.push(sortPromise);
+        }
+
+        // waiting for each segment to sort
+        await Promise.all(sortPromises);
+        // merge sorted segments
+        await bucketMerge(buckets);
+
+        return arr;
+
+    } else {
+        const highIdx = process.env.highIdx;
+        const lowIdx = process.env.lowIdx;
+
+        // when calculated send message to master
+        process.send(await quickSort(arr, lowIdx, highIdx, condition));
+    }
+};
+
+bucketSort([1, 2, 3, 5, 6, 9], (a, b) => a > b, { countCPU: 4})
+
+module.exports = bucketSort;
