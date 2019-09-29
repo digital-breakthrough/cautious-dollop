@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import config from "config";
-import './db'
+// import './db'
 
 import {
   routes

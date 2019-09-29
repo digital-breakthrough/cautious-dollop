@@ -1,26 +1,37 @@
-import {js as beautify} from "js-beautify";
+import { js as beautify } from "js-beautify";
 import fs from "fs";
 import dependencies from "../../dependencies";
 
 const readFile = fs.promises.readFile;
 
-export async function compare (req, res) {
+export async function compare(req, res) {
     const fileForChecking = req.body.fileForChecking;
     const existingCodeBase = req.body.existingCodeBase;
     const fileDataForChecking = beautify(await readFile(fileForChecking.path, 'utf8')).replace(/(\n\n)/gm, "\n");
     const existingFileData = beautify(await readFile(existingCodeBase.path, 'utf8')).replace(/(\n\n)/gm, "\n");
 
     let equalRows = 0;
+    let checkFileRowId = 0;
+    let existingFileRowId = 0;
+    const matches = []; 
     for (const row_1 of fileDataForChecking.split("\n")) {
         for (const row_2 of existingFileData.split("\n")) {
             if (row_1 == row_2) {
                 equalRows += 1;
+                matches.push({
+                    key: checkFileRowId,
+                    checkFileRowId,
+                    existingFileRowId,
+                    row: row_1
+                });
+                existingFileRowId = 0;
                 break;
-            }
+            } else existingFileRowId +=1;
         }
+        checkFileRowId +=1;
     }
-    
-    const percent = 100 - equalRows/fileDataForChecking.split("\n").length * 100;
+
+    const percent = 100 - equalRows / fileDataForChecking.split("\n").length * 100;
     const columns = [{
         title: 'Тип файл',
         dataIndex: "file_type",
@@ -40,7 +51,7 @@ export async function compare (req, res) {
         file_type: "Javascript file",
         count_row: fileDataForChecking.split("\n").length,
         count_word: fileDataForChecking.split(" ").length,
-        }];
+    }];
 
     let usedDependencies = [];
     const iterator = fileDataForChecking.matchAll(/from "(\w+)"/gi);
@@ -59,6 +70,7 @@ export async function compare (req, res) {
             title: usedDepend
         }
     });
+    console.log(matches);
 
     return res.json({
         success: true,
@@ -66,6 +78,7 @@ export async function compare (req, res) {
         docs,
         columns,
         usedDependencies,
-        equalRows
+        equalRows,
+        matches
     });
 }
